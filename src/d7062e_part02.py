@@ -1,12 +1,14 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import StandardScaler
-from sklearn.tree import DecisionTreeClassifier
 from sklearn import metrics
-from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVR
+from sklearn.impute import SimpleImputer
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.neighbors import KNeighborsClassifier
 
 
 def get_train_features_and_labels(input_file):
@@ -52,15 +54,15 @@ def train_decision_tree_and_calculate_performance(
     print('-----------------------------------------------------------------------------------------------------')
 
 
-def train_random_forest_and_calculate_performance(
+def train_SVM_and_calculate_performance(
         train_features, train_labels, test_features, test_labels):
-    print('###################################### RANDOM FOREST ALGORITHM ######################################')
+    print('########################################### SVM ALGORITHM ###########################################')
     # Train the random forest algorithm
-    rf_reg = RandomForestRegressor(n_estimators=200, random_state=0)
-    rf_reg.fit(train_features, train_labels)
+    svr_reg = SVR(kernel='linear')
+    svr_reg.fit(train_features, train_labels)
 
     # Make predictions
-    predictions = rf_reg.predict(test_features)
+    predictions = svr_reg.predict(test_features)
 
     # Run a comparison
     comparison = pd.DataFrame(
@@ -74,15 +76,60 @@ def train_random_forest_and_calculate_performance(
     print('-----------------------------------------------------------------------------------------------------')
 
 
-def train_SVM_and_calculate_performance(
+def train_KNN_and_calculate_performance(
         train_features, train_labels, test_features, test_labels):
-    print('########################################### SVM ALGORITHM ###########################################')
+    print('########################################### KNN ALGORITHM ###########################################')
     # Train the random forest algorithm
-    svr_reg = SVR(kernel='linear')
-    svr_reg.fit(train_features, train_labels)
+    knn_clf = KNeighborsClassifier(n_neighbors=3)
+    knn_clf.fit(train_features, train_labels)
 
     # Make predictions
-    predictions = svr_reg.predict(test_features)
+    predictions = knn_clf.predict(test_features)
+
+    # Run a comparison
+    comparison = pd.DataFrame(
+        {'Real': test_labels, 'Predictions': predictions})
+    print(comparison)
+
+    # Calculate MAE, MSE and RMSE
+    print(f'MAE {metrics.mean_absolute_error(test_labels, predictions)}')
+    print(f'MSE {metrics.mean_squared_error(test_labels, predictions)}')
+    print(f'RMSE {np.sqrt(metrics.mean_squared_error(test_labels, predictions))}')
+    print('-----------------------------------------------------------------------------------------------------')
+
+
+def train_MLP_and_calculate_performance(
+        train_features, train_labels, test_features, test_labels):
+    print('########################################### MLP ALGORITHM ###########################################')
+
+    # Train the random forest algorithm
+    mlp_clf = MLPClassifier(random_state=1, max_iter=300)
+    mlp_clf.fit(train_features, train_labels)
+
+    # Make predictions
+    predictions = mlp_clf.predict(test_features)
+
+    # Run a comparison
+    comparison = pd.DataFrame(
+        {'Real': test_labels, 'Predictions': predictions})
+    print(comparison)
+
+    # Calculate MAE, MSE and RMSE
+    print(f'MAE {metrics.mean_absolute_error(test_labels, predictions)}')
+    print(f'MSE {metrics.mean_squared_error(test_labels, predictions)}')
+    print(f'RMSE {np.sqrt(metrics.mean_squared_error(test_labels, predictions))}')
+    print('-----------------------------------------------------------------------------------------------------')
+
+
+def train_random_forest_and_calculate_performance(
+        train_features, train_labels, test_features, test_labels):
+    print('###################################### RANDOM FOREST ALGORITHM ######################################')
+    # Train the random forest algorithm
+    rf_reg = RandomForestRegressor(n_estimators=200, random_state=0)
+    rf_reg.fit(train_features, train_labels)
+
+    # Make predictions
+    predictions = rf_reg.predict(test_features)
 
     # Run a comparison
     comparison = pd.DataFrame(
@@ -119,14 +166,22 @@ if __name__ == "__main__":
     train_features = normalized_data[0]
     test_features = normalized_data[1]
 
-    # Run performance evaluation of decision tree
+    # Run performance evaluation of Decision Tree
     train_decision_tree_and_calculate_performance(
         train_features, train_labels, test_features, test_labels)
 
-    # Run performance evaluation of decision tree
-    train_random_forest_and_calculate_performance(
+    # Run performance evaluation of SVM
+    train_SVM_and_calculate_performance(
         train_features, train_labels, test_features, test_labels)
 
-    # Run performance evaluation of decision tree
-    train_SVM_and_calculate_performance(
+    # Run performance evaluation of KNN
+    train_KNN_and_calculate_performance(
+        train_features, train_labels, test_features, test_labels)
+
+    # Run performance evaluation of MLP
+    train_MLP_and_calculate_performance(
+        train_features, train_labels, test_features, test_labels)
+
+    # Run performance evaluation of Random Forest
+    train_random_forest_and_calculate_performance(
         train_features, train_labels, test_features, test_labels)
