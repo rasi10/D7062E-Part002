@@ -6,6 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import metrics
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.svm import SVR
 
 
 def get_train_features_and_labels(input_file):
@@ -73,6 +74,28 @@ def train_random_forest_and_calculate_performance(
     print('-----------------------------------------------------------------------------------------------------')
 
 
+def train_SVM_and_calculate_performance(
+        train_features, train_labels, test_features, test_labels):
+    print('########################################### SVM ALGORITHM ###########################################')
+    # Train the random forest algorithm
+    svr_reg = SVR(kernel='linear')
+    svr_reg.fit(train_features, train_labels)
+
+    # Make predictions
+    predictions = svr_reg.predict(test_features)
+
+    # Run a comparison
+    comparison = pd.DataFrame(
+        {'Real': test_labels, 'Predictions': predictions})
+    print(comparison)
+
+    # Calculate MAE, MSE and RMSE
+    print(f'MAE {metrics.mean_absolute_error(test_labels, predictions)}')
+    print(f'MSE {metrics.mean_squared_error(test_labels, predictions)}')
+    print(f'RMSE {np.sqrt(metrics.mean_squared_error(test_labels, predictions))}')
+    print('-----------------------------------------------------------------------------------------------------')
+
+
 if __name__ == "__main__":
     # Load datasets for training and test and share features and labels
     INPUT_FILE_TRAIN = 'datasets/train-final.csv'
@@ -102,4 +125,8 @@ if __name__ == "__main__":
 
     # Run performance evaluation of decision tree
     train_random_forest_and_calculate_performance(
+        train_features, train_labels, test_features, test_labels)
+
+    # Run performance evaluation of decision tree
+    train_SVM_and_calculate_performance(
         train_features, train_labels, test_features, test_labels)
