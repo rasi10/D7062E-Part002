@@ -51,6 +51,8 @@ def train_decision_tree_and_calculate_performance(
     print(f'MAE {metrics.mean_absolute_error(test_labels, predictions)}')
     print(f'MSE {metrics.mean_squared_error(test_labels, predictions)}')
     print(f'RMSE {np.sqrt(metrics.mean_squared_error(test_labels, predictions))}')
+    print(
+        f'Accuracy Score {np.sqrt(metrics.accuracy_score(test_labels, predictions))}')
     print('-----------------------------------------------------------------------------------------------------')
 
 
@@ -73,6 +75,8 @@ def train_SVM_and_calculate_performance(
     print(f'MAE {metrics.mean_absolute_error(test_labels, predictions)}')
     print(f'MSE {metrics.mean_squared_error(test_labels, predictions)}')
     print(f'RMSE {np.sqrt(metrics.mean_squared_error(test_labels, predictions))}')
+    print(
+        f'Accuracy Score {np.sqrt(metrics.accuracy_score(test_labels, predictions))}')
     print('-----------------------------------------------------------------------------------------------------')
 
 
@@ -95,6 +99,8 @@ def train_KNN_and_calculate_performance(
     print(f'MAE {metrics.mean_absolute_error(test_labels, predictions)}')
     print(f'MSE {metrics.mean_squared_error(test_labels, predictions)}')
     print(f'RMSE {np.sqrt(metrics.mean_squared_error(test_labels, predictions))}')
+    print(
+        f'Accuracy Score {np.sqrt(metrics.accuracy_score(test_labels, predictions))}')
     print('-----------------------------------------------------------------------------------------------------')
 
 
@@ -118,6 +124,8 @@ def train_MLP_and_calculate_performance(
     print(f'MAE {metrics.mean_absolute_error(test_labels, predictions)}')
     print(f'MSE {metrics.mean_squared_error(test_labels, predictions)}')
     print(f'RMSE {np.sqrt(metrics.mean_squared_error(test_labels, predictions))}')
+    print(
+        f'Accuracy Score {np.sqrt(metrics.accuracy_score(test_labels, predictions))}')
     print('-----------------------------------------------------------------------------------------------------')
 
 
@@ -140,6 +148,8 @@ def train_random_forest_and_calculate_performance(
     print(f'MAE {metrics.mean_absolute_error(test_labels, predictions)}')
     print(f'MSE {metrics.mean_squared_error(test_labels, predictions)}')
     print(f'RMSE {np.sqrt(metrics.mean_squared_error(test_labels, predictions))}')
+    print(
+        f'Accuracy Score {np.sqrt(metrics.accuracy_score(test_labels, predictions))}')
     print('-----------------------------------------------------------------------------------------------------')
 
 
@@ -160,7 +170,7 @@ if __name__ == "__main__":
     train_features = handle_missing_values(train_features)
     test_features = handle_missing_values(test_features)
 
-    # Normalizing the data    
+    # Normalizing the data
     normalized_data = perform_normalization_by_scaling(
         train_features, test_features)
     train_features = normalized_data[0]
