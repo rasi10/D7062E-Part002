@@ -2,12 +2,12 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import metrics
-from sklearn.svm import SVR
+from sklearn import svm
 from sklearn.impute import SimpleImputer
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 
 
@@ -58,11 +58,11 @@ def train_SVM_and_calculate_performance(
         train_features, train_labels, test_features, test_labels):
     print('########################################### SVM ALGORITHM ###########################################')
     # Train the random forest algorithm
-    svr_reg = SVR(kernel='linear')
-    svr_reg.fit(train_features, train_labels)
+    svm_reg = svm.SVC(decision_function_shape='ovo')
+    svm_reg.fit(train_features, train_labels)
 
     # Make predictions
-    predictions = svr_reg.predict(test_features)
+    predictions = svm_reg.predict(test_features)
 
     # Run a comparison
     comparison = pd.DataFrame(
@@ -125,7 +125,7 @@ def train_random_forest_and_calculate_performance(
         train_features, train_labels, test_features, test_labels):
     print('###################################### RANDOM FOREST ALGORITHM ######################################')
     # Train the random forest algorithm
-    rf_reg = RandomForestRegressor(n_estimators=200, random_state=0)
+    rf_reg = RandomForestClassifier(max_depth=2, random_state=0)
     rf_reg.fit(train_features, train_labels)
 
     # Make predictions
@@ -160,7 +160,7 @@ if __name__ == "__main__":
     train_features = handle_missing_values(train_features)
     test_features = handle_missing_values(test_features)
 
-    # Normalizing the data
+    # Normalizing the data    
     normalized_data = perform_normalization_by_scaling(
         train_features, test_features)
     train_features = normalized_data[0]
