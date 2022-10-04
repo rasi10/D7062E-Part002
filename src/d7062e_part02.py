@@ -59,7 +59,8 @@ def train_decision_tree_and_calculate_performance(
         cv=10,
         scoring="accuracy")
     print(cross_v)
-    print(f'Average accuracy out of the cross-validation with 10 folds: {cross_v.mean()}')
+    print(
+        f'Average accuracy out of the cross-validation with 10 folds: {cross_v.mean()}')
     print('------------------------------------------------------------------------------------------------------')
 
     # Print classification report
@@ -95,7 +96,8 @@ def train_SVM_and_calculate_performance(
         cv=10,
         scoring="accuracy")
     print(cross_v)
-    print(f'Average accuracy out of the cross-validation with 10 folds: {cross_v.mean()}')
+    print(
+        f'Average accuracy out of the cross-validation with 10 folds: {cross_v.mean()}')
     print('------------------------------------------------------------------------------------------------------')
 
     # Print classification report
@@ -130,7 +132,8 @@ def train_KNN_and_calculate_performance(
         cv=10,
         scoring="accuracy")
     print(cross_v)
-    print(f' Average accuracy out of the cross-validation with 10 folds: {cross_v.mean()}')
+    print(
+        f'Average accuracy out of the cross-validation with 10 folds: {cross_v.mean()}')
     print('------------------------------------------------------------------------------------------------------')
 
     # Print classification report
@@ -169,7 +172,8 @@ def train_MLP_and_calculate_performance(
         cv=10,
         scoring="accuracy")
     print(cross_v)
-    print(f'Average out of the cross-validation with 10 folds: {cross_v.mean()}')
+    print(
+        f'Average accuracy out of the cross-validation with 10 folds: {cross_v.mean()}')
     print('------------------------------------------------------------------------------------------------------')
 
     # Print classification report
@@ -205,7 +209,8 @@ def train_random_forest_and_calculate_performance(
         cv=10,
         scoring="accuracy")
     print(cross_v)
-    print(f'Average out of the cross-validation with 10 folds: {cross_v.mean()}')
+    print(
+        f'Average accuracy out of the cross-validation with 10 folds: {cross_v.mean()}')
     print('------------------------------------------------------------------------------------------------------')
 
     # Print classification report
