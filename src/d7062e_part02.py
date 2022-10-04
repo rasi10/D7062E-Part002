@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn import metrics
 from sklearn import svm
 from sklearn.impute import SimpleImputer
 from sklearn.tree import DecisionTreeClassifier
@@ -9,6 +8,8 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+from sklearn.model_selection import cross_val_score
 
 
 def get_train_features_and_labels(input_file):
@@ -35,6 +36,7 @@ def perform_normalization_by_scaling(train, test):
 def train_decision_tree_and_calculate_performance(
         train_features, train_labels, test_features, test_labels):
     print('###################################### DECISION TREE ALGORITHM ######################################')
+
     # Train the decision tree algorithm
     dt_reg = DecisionTreeClassifier()
     dt_reg.fit(train_features, train_labels)
@@ -45,20 +47,32 @@ def train_decision_tree_and_calculate_performance(
     # Run a comparison
     comparison = pd.DataFrame(
         {'Real': test_labels, 'Predictions': predictions})
-    print(comparison)
+    # print(comparison)
 
-    # Calculate MAE, MSE and RMSE
-    print(f'MAE {metrics.mean_absolute_error(test_labels, predictions)}')
-    print(f'MSE {metrics.mean_squared_error(test_labels, predictions)}')
-    print(f'RMSE {np.sqrt(metrics.mean_squared_error(test_labels, predictions))}')
-    print(
-        f'Accuracy Score {np.sqrt(metrics.accuracy_score(test_labels, predictions))}')
-    print('-----------------------------------------------------------------------------------------------------')
+    # print 10-fold cross validation score
+    print('------------------------------------------------------------------------------------------------------')
+    print('Cross validation with 10-fold')
+    cross_v = cross_val_score(
+        dt_reg,
+        train_features,
+        train_labels,
+        cv=10,
+        scoring="accuracy")
+    print(cross_v)
+    print(f'Average accuracy out of the cross-validation with 10 folds: {cross_v.mean()}')
+    print('------------------------------------------------------------------------------------------------------')
+
+    # Print classification report
+    # print(confusion_matrix(test_labels, predictions))
+    # print(f'Accuracy Score {np.sqrt(accuracy_score(test_labels, predictions))}')
+    print(classification_report(test_labels, predictions))
+    print('------------------------------------------------------------------------------------------------------')
 
 
 def train_SVM_and_calculate_performance(
         train_features, train_labels, test_features, test_labels):
     print('########################################### SVM ALGORITHM ###########################################')
+
     # Train the random forest algorithm
     svm_reg = svm.SVC(decision_function_shape='ovo')
     svm_reg.fit(train_features, train_labels)
@@ -69,15 +83,26 @@ def train_SVM_and_calculate_performance(
     # Run a comparison
     comparison = pd.DataFrame(
         {'Real': test_labels, 'Predictions': predictions})
-    print(comparison)
+    # print(comparison)
 
-    # Calculate MAE, MSE and RMSE
-    print(f'MAE {metrics.mean_absolute_error(test_labels, predictions)}')
-    print(f'MSE {metrics.mean_squared_error(test_labels, predictions)}')
-    print(f'RMSE {np.sqrt(metrics.mean_squared_error(test_labels, predictions))}')
-    print(
-        f'Accuracy Score {np.sqrt(metrics.accuracy_score(test_labels, predictions))}')
-    print('-----------------------------------------------------------------------------------------------------')
+    # print 10-fold cross validation score
+    print('------------------------------------------------------------------------------------------------------')
+    print('Cross validation with 10-fold')
+    cross_v = cross_val_score(
+        svm_reg,
+        train_features,
+        train_labels,
+        cv=10,
+        scoring="accuracy")
+    print(cross_v)
+    print(f'Average accuracy out of the cross-validation with 10 folds: {cross_v.mean()}')
+    print('------------------------------------------------------------------------------------------------------')
+
+    # Print classification report
+    # print(confusion_matrix(test_labels, predictions))
+    # print(f'Accuracy Score {np.sqrt(accuracy_score(test_labels, predictions))}')
+    print(classification_report(test_labels, predictions))
+    print('------------------------------------------------------------------------------------------------------')
 
 
 def train_KNN_and_calculate_performance(
@@ -93,19 +118,33 @@ def train_KNN_and_calculate_performance(
     # Run a comparison
     comparison = pd.DataFrame(
         {'Real': test_labels, 'Predictions': predictions})
-    print(comparison)
+    # print(comparison)
 
-    # Calculate MAE, MSE and RMSE
-    print(f'MAE {metrics.mean_absolute_error(test_labels, predictions)}')
-    print(f'MSE {metrics.mean_squared_error(test_labels, predictions)}')
-    print(f'RMSE {np.sqrt(metrics.mean_squared_error(test_labels, predictions))}')
-    print(
-        f'Accuracy Score {np.sqrt(metrics.accuracy_score(test_labels, predictions))}')
-    print('-----------------------------------------------------------------------------------------------------')
+    # print 10-fold cross validation score
+    print('------------------------------------------------------------------------------------------------------')
+    print('Cross validation with 10-fold')
+    cross_v = cross_val_score(
+        knn_clf,
+        train_features,
+        train_labels,
+        cv=10,
+        scoring="accuracy")
+    print(cross_v)
+    print(f' Average accuracy out of the cross-validation with 10 folds: {cross_v.mean()}')
+    print('------------------------------------------------------------------------------------------------------')
+
+    # Print classification report
+    # print(confusion_matrix(test_labels, predictions))
+    # print(f'Accuracy Score {np.sqrt(accuracy_score(test_labels, predictions))}')
+    print(classification_report(test_labels, predictions))
+    print('------------------------------------------------------------------------------------------------------')
 
 
 def train_MLP_and_calculate_performance(
-        train_features, train_labels, test_features, test_labels):
+        train_features,
+        train_labels,
+        test_features,
+        test_labels):
     print('########################################### MLP ALGORITHM ###########################################')
 
     # Train the random forest algorithm
@@ -118,20 +157,32 @@ def train_MLP_and_calculate_performance(
     # Run a comparison
     comparison = pd.DataFrame(
         {'Real': test_labels, 'Predictions': predictions})
-    print(comparison)
+    # print(comparison)
 
-    # Calculate MAE, MSE and RMSE
-    print(f'MAE {metrics.mean_absolute_error(test_labels, predictions)}')
-    print(f'MSE {metrics.mean_squared_error(test_labels, predictions)}')
-    print(f'RMSE {np.sqrt(metrics.mean_squared_error(test_labels, predictions))}')
-    print(
-        f'Accuracy Score {np.sqrt(metrics.accuracy_score(test_labels, predictions))}')
-    print('-----------------------------------------------------------------------------------------------------')
+    # print 10-fold cross validation score
+    print('------------------------------------------------------------------------------------------------------')
+    print('Cross validation with 10-fold')
+    cross_v = cross_val_score(
+        mlp_clf,
+        train_features,
+        train_labels,
+        cv=10,
+        scoring="accuracy")
+    print(cross_v)
+    print(f'Average out of the cross-validation with 10 folds: {cross_v.mean()}')
+    print('------------------------------------------------------------------------------------------------------')
+
+    # Print classification report
+    # print(confusion_matrix(test_labels, predictions))
+    # print(f'Accuracy Score {np.sqrt(accuracy_score(test_labels, predictions))}')
+    print(classification_report(test_labels, predictions))
+    print('------------------------------------------------------------------------------------------------------')
 
 
 def train_random_forest_and_calculate_performance(
         train_features, train_labels, test_features, test_labels):
     print('###################################### RANDOM FOREST ALGORITHM ######################################')
+
     # Train the random forest algorithm
     rf_reg = RandomForestClassifier(max_depth=2, random_state=0)
     rf_reg.fit(train_features, train_labels)
@@ -142,15 +193,26 @@ def train_random_forest_and_calculate_performance(
     # Run a comparison
     comparison = pd.DataFrame(
         {'Real': test_labels, 'Predictions': predictions})
-    print(comparison)
+    # print(comparison)
 
-    # Calculate MAE, MSE and RMSE
-    print(f'MAE {metrics.mean_absolute_error(test_labels, predictions)}')
-    print(f'MSE {metrics.mean_squared_error(test_labels, predictions)}')
-    print(f'RMSE {np.sqrt(metrics.mean_squared_error(test_labels, predictions))}')
-    print(
-        f'Accuracy Score {np.sqrt(metrics.accuracy_score(test_labels, predictions))}')
-    print('-----------------------------------------------------------------------------------------------------')
+    # print 10-fold cross validation score
+    print('------------------------------------------------------------------------------------------------------')
+    print('Cross validation with 10-fold')
+    cross_v = cross_val_score(
+        rf_reg,
+        train_features,
+        train_labels,
+        cv=10,
+        scoring="accuracy")
+    print(cross_v)
+    print(f'Average out of the cross-validation with 10 folds: {cross_v.mean()}')
+    print('------------------------------------------------------------------------------------------------------')
+
+    # Print classification report
+    # print(confusion_matrix(test_labels, predictions))
+    # print(f'Accuracy Score {np.sqrt(accuracy_score(test_labels, predictions))}')
+    print(classification_report(test_labels, predictions, zero_division=1))
+    print('------------------------------------------------------------------------------------------------------')
 
 
 if __name__ == "__main__":
